@@ -145,9 +145,10 @@ def clinic_day_stats(request):
         new_clients_number=0
         walk_in_number=0
 
-        today = timezone.now().date()
-        branch = Branch.objects.get(code=request.user.branch_code)
-        total_visits = Attendance.objects.filter(branch=branch.code, created_at__date = today)
+        try:
+            branch = Branch.objects.get(code=request.user.branch_code)
+            total_visits = Attendance.objects.filter(branch=branch.code, created_at__date = today)
+        except Branch.DoesNotExist:pass = Attendance.objects.filter(branch=branch.code, created_at__date = today)
        
         if total_visits:
             total_visits_number = total_visits.count()
