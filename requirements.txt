@@ -19,7 +19,6 @@ importlib-metadata==1.6.0
 jeepney==0.4.3
 key-mapper @ git+https://github.com/sezanzeb/key-mapper.git@326cff9798a9494f059ad7ed538628d23b09e012
 keyring==21.3.0
-language-selector==0.1
 launchpadlib==1.10.13
 lazr.restfulclient==0.14.2
 lazr.uri==1.0.5
