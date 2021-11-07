@@ -1,7 +1,6 @@
 appdirs==1.4.4
 asgiref==3.3.4
 blinker==1.4
-Brlapi
 certifi==2020.4.5.1
 chardet==3.0.4
 chrome-gnome-shell==0.0.0
