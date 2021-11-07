@@ -3,7 +3,7 @@ asgiref==3.3.4
 blinker==1.4
 certifi==2020.4.5.1
 chardet==3.0.4
-chrome-gnome-shell==0.0.0
+chrome-gnome-shell
 click==7.1.2
 colorama==0.4.3
 command-not-found==0.3
