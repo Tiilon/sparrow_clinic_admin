@@ -35,51 +35,51 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
-@api_view(['POST'])
-def sign_in(request):
-    email= request.data.get('email')
-    password = request.data.get('password')
+# @api_view(['POST'])
+# def sign_in(request):
+#     email= request.data.get('email')
+#     password = request.data.get('password')
 
-    if not email:
-        return Response({'error': 'Email Field Required'})
-    if not password:
-        return Response({'error': 'Password Field Required'})
+#     if not email:
+#         return Response({'error': 'Email Field Required'})
+#     if not password:
+#         return Response({'error': 'Password Field Required'})
 
-    try:
-        user = authenticate(request, email=email, password=password)
+#     try:
+#         user = authenticate(request, email=email, password=password)
 
-        if user is not None and user.is_active:
-            login(request, user)
-            user.token = ''
-            user.save()
+#         if user is not None and user.is_active:
+#             login(request, user)
+#             user.token = ''
+#             user.save()
 
-            url = f'http://{request.get_host()}/jwt/token/'
-            payload = {
-                'first_name':user.first_name,
-                'last_name':user.last_name,
-                'email':user.email,
-                'role':user.role,
-                }
-            headers = {
-                'content-type':'application/x-www-form-urlencoded',
-                'Authorization': f'Bearer {os.environ.get("BASE_64_MASHUP")}'
-            }
-            myrequest = requests.post(url, payload, headers=headers)
+#             url = f'http://{request.get_host()}/jwt/token/'
+#             payload = {
+#                 'first_name':user.first_name,
+#                 'last_name':user.last_name,
+#                 'email':user.email,
+#                 'role':user.role,
+#                 }
+#             headers = {
+#                 'content-type':'application/x-www-form-urlencoded',
+#                 'Authorization': f'Bearer {os.environ.get("BASE_64_MASHUP")}'
+#             }
+#             myrequest = requests.post(url, payload, headers=headers)
 
-            return Response({
-                'token': json.loads(myrequest.text),
-                'user': {
-                    'first_name':user.first_name,
-                    'last_name':user.last_name,
-                    'profile':user.profile,
-                    'email':user.email,
-                    'role':user.role,
-                }
-            })
-        else:
-            return Response({'error': 'Credentials do not match or user is inactive'})
-    except User.DoesNotExist:
-        return Response({'error': 'User does not exist'})
+#             return Response({
+#                 'token': json.loads(myrequest.text),
+#                 'user': {
+#                     'first_name':user.first_name,
+#                     'last_name':user.last_name,
+#                     'profile':user.profile,
+#                     'email':user.email,
+#                     'role':user.role,
+#                 }
+#             })
+#         else:
+#             return Response({'error': 'Credentials do not match or user is inactive'})
+#     except User.DoesNotExist:
+#         return Response({'error': 'User does not exist'})
 
 class MyTokenObtainPairView(TokenObtainPairView):
     # permission_classes = [AllowAny]
