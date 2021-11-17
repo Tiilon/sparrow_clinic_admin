@@ -12,9 +12,9 @@ from .serializers import *
 import datetime
 from dateutil import parser
 from rest_framework.views import APIView
-import os
-import json
-import requests
+# import os
+# import json
+# import requests
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
