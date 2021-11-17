@@ -8,4 +8,5 @@ urlpatterns = [
     path('feedback/<id>/',feedback),
     path('analyses/',analyses),
     path('reports/',feedback_reports),
+    path('dashboard/',dashboard),
 ]

@@ -665,3 +665,124 @@ def feedback_reports(request):
                         fair_list.append(attendance)
                     elif attendance.feedback.overall == 1:
                         bad_list.append(attendance)
+
+
+def days_of_week():
+    today = date.today()
+    currentWeek = date(today.year, today.month, today.day).strftime('%V')
+    firstday= datetime.strptime(f"{today.year}-W{int(currentWeek)-1}-1", "%Y-W%W-%w").date()
+    second=firstday + timedelta(days= 1.9)
+    third=firstday + timedelta(days= 2.9)
+    fourth=firstday + timedelta(days= 3.9)
+    fith=firstday + timedelta(days= 4.9)
+    six=firstday + timedelta(days= 5.9)
+    seven = firstday + timedelta(days= 6.9)
+    return ([firstday,second, third, fourth, fith, six,seven])
+
+
+@api_view(['GET'])
+def dashboard(request):
+    if request.method == 'GET':
+        weekly_data = []
+        monthly_data = []
+        today = date.today()
+        total_visits_number=0
+        first_time_list = []
+        subsequent_time_list = []
+        walk_in_list = []
+        consultation_list = []
+        new_clients_per = 0
+        sub_clients_per=0
+        walk_in_number_per=0
+        consultaion_number_per=0
+        new_clients_number=0
+        old_clients_number=0
+        walk_in_number=0
+        currentWeek = date(today.year, today.month, today.day).strftime('%V')
+        firstday= datetime.strptime(f"{today.year}-W{int(currentWeek)}-1", "%Y-W%W-%w").date()
+        second=firstday + timedelta(days= 1.9)
+        third=firstday + timedelta(days= 2.9)
+        fourth=firstday + timedelta(days= 3.9)
+        fifth=firstday + timedelta(days= 4.9)
+        six=firstday + timedelta(days= 5.9)
+        seven = firstday + timedelta(days= 6.9)
+        days_of_week = [firstday,second, third, fourth, fifth, six,seven]
+        for day in days_of_week:
+           attendances= Attendance.objects.filter(created_at__date=day) 
+           weekly_data.append(len(attendances))
+           
+        jan_month = Attendance.objects.filter(created_at__month=1)
+        monthly_data.append(len(jan_month) if jan_month else 0)
+        feb_month = Attendance.objects.filter(created_at__month=2)
+        monthly_data.append(len(feb_month) if feb_month else 0)
+        mar_month = Attendance.objects.filter(created_at__month=3)
+        monthly_data.append(len(mar_month) if mar_month else 0)
+        apr_month = Attendance.objects.filter(created_at__month=4)
+        monthly_data.append(len(apr_month) if apr_month else 0)
+        may_month = Attendance.objects.filter(created_at__month=5)
+        monthly_data.append(len(may_month) if may_month else 0)
+        jun_month = Attendance.objects.filter(created_at__month=6)
+        monthly_data.append(len(jun_month) if jun_month else 0)
+        jul_month = Attendance.objects.filter(created_at__month=7)
+        monthly_data.append(len(jul_month) if jul_month else 0) 
+        aug_month = Attendance.objects.filter(created_at__month=8)
+        monthly_data.append(len(aug_month) if aug_month else 0)
+        sept_month = Attendance.objects.filter(created_at__month=9)
+        monthly_data.append(len(sept_month) if sept_month else 0)
+        oct_month = Attendance.objects.filter(created_at__month=10)
+        monthly_data.append(len(oct_month) if oct_month else 0)
+        nov_month = Attendance.objects.filter(created_at__month=11)
+        monthly_data.append(len(nov_month) if nov_month else 0)
+        dec_month = Attendance.objects.filter(created_at__month=12)
+        monthly_data.append(len(dec_month) if dec_month else 0)
+
+        total_visits = Attendance.objects.filter(created_at__date = today)
+        
+        if total_visits:
+            total_visits_number = total_visits.count()
+            for attendance in total_visits:
+                if attendance.is_first_time:
+                    first_time_list.append(attendance)
+                else:
+                    subsequent_time_list.append(attendance)
+                if attendance.is_walk_in:
+                    walk_in_list.append(attendance)
+                elif not attendance.is_walk_in:
+                    consultation_list.append(attendance)
+            if len(first_time_list) >= 0:
+                new_clients_number = len(first_time_list)
+            
+            consultaion_number=len(consultation_list)
+            old_clients_number = len(subsequent_time_list)
+            new_clients_per = new_clients_number/total_visits_number * 100
+            sub_clients_per = len(subsequent_time_list)/total_visits_number * 100
+            walk_in_number_per = walk_in_number/total_visits_number * 100
+            consultaion_number_per = len(consultation_list)/total_visits_number * 100
+        else:
+            total_visits_number=0
+            new_clients_number=0
+            old_clients_number=0
+            walk_in_number=0
+            consultaion_number=0
+            new_clients_per=0
+            sub_clients_per=0
+            walk_in_number_per=0
+            consultaion_number_per=0
+        
+
+        return Response({
+            'weekly_data':weekly_data,
+            'monthly_data':monthly_data,
+            'total_visitors':total_visits_number,
+            'new_clients':new_clients_number,
+            'old_clients':old_clients_number,
+            'walk_ins':walk_in_number,
+            'consultaion_number':consultaion_number,
+            'new_clients_per':new_clients_per,
+            'sub_clients_per':sub_clients_per,
+            'walk_in_number_per':walk_in_number_per,
+            'consultaion_number_per':consultaion_number_per,
+            'profile':request.user.profile,
+            'user':request.user.get_full_name()
+        })
+        

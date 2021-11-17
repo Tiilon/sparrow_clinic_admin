@@ -148,9 +148,10 @@ def clinic_day_stats(request):
         today = timezone.now().date()
         try:
             branch = Branch.objects.get(code=request.user.branch_code)
-            total_visits = Attendance.objects.filter(branch=branch.code, created_at__date = today)
         except Branch.DoesNotExist:pass
-       
+
+        total_visits = Attendance.objects.filter(branch=branch.code, created_at__date = today)
+        
         if total_visits:
             total_visits_number = total_visits.count()
             for attendance in total_visits:
@@ -169,18 +170,18 @@ def clinic_day_stats(request):
             new_clients_per = new_clients_number/total_visits_number * 100
             sub_clients_per = len(subsequent_time_list)/total_visits_number * 100
             walk_in_number_per = walk_in_number/total_visits_number * 100
-            consultaion_number_per = len(consultation_list)/total_visits_number * 100
+            consultation_number_per = len(consultation_list)/total_visits_number * 100
         
             return Response({
                 'total_visitors':total_visits_number,
                 'new_clients':new_clients_number,
                 'old_clients':len(subsequent_time_list),
                 'walk_ins':walk_in_number,
-                'consultaion_number':len(consultation_list),
+                'consultation_number':len(consultation_list),
                 'new_clients_per':new_clients_per,
                 'sub_clients_per':sub_clients_per,
                 'walk_in_number_per':walk_in_number_per,
-                'consultaion_number_per':consultaion_number_per
+                'consultaion_number_per':consultation_number_per
             })
         else:
             return Response({

@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('api/marketing/', include('marketing.urls')),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_create'),
+    path('api/login/', sign_in, name='login'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/blacklist/', blacklist_token_view, name='logout'),
+    path('api/token/blacklist/', LogoutView.as_view(), name='logout'),
 ]

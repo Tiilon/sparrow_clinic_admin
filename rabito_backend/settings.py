@@ -28,8 +28,9 @@ SECRET_KEY = 'django-insecure-tay18_@&f^@!f#3uz6ls_fmq7^(85@xivpo6636jt!jrz+r64w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['sparrow-clinic-admin.herokuapp.com']
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['sparrow-clinic-admin.herokuapp.com']
+
 
 
 # Application definition
@@ -88,24 +89,24 @@ WSGI_APPLICATION = 'rabito_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'Rabito',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Sparrow0500',
-#         'HOST': 'localhost',
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd8hm683rpd3jh4',
-        'USER': 'ihmddsolrpzsbr',
-        'PASSWORD': '694c0302a37e6e8170bad672d7e4df6f6f375e35240691d9c732352127ffa5d1',
-        'HOST': 'http://ec2-18-206-108-36.compute-1.amazonaws.com/',
+        'NAME': 'Rabito',
+        'USER': 'postgres',
+        'PASSWORD': 'Sparrow0500',
+        'HOST': 'localhost',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd8hm683rpd3jh4',
+#         'USER': 'ihmddsolrpzsbr',
+#         'PASSWORD': '694c0302a37e6e8170bad672d7e4df6f6f375e35240691d9c732352127ffa5d1',
+#         'HOST': 'http://ec2-18-206-108-36.compute-1.amazonaws.com/',
+#     }
+# }
 
 
 # Password validation
@@ -162,8 +163,8 @@ AUTH_USER_MODEL = 'user.User'
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': False,
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 
